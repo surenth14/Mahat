@@ -32,7 +32,7 @@ namespace MarketplacenewWebApi.Controllers
 					     _configuration = configuration;
 					     _logger = loggerFactory.CreateLogger<tenantController>();
 					     _connectionSettings = connectionSettings;
-					     objtenantDAL = new tenantDAL(_connectionSettings.Value.ConnectionString);
+                                             objtenantDAL = new tenantDAL(_connectionSettings.Value.ConnectionString, loggerFactory.CreateLogger<tenantDAL>());
                          obj_External_System_DAL =new External_System_DAL(_connectionSettings.Value.ConnectionString);
                          objExternalSystemUtitlity = new ExternalSystemUtility(_connectionSettings, _configuration);
 					     hostingEnv = hostingEnvironment;

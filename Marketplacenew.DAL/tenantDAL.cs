@@ -4,23 +4,26 @@ namespace Marketplacenew.DAL{
 			    using System.Data;
 			    using System.Data.Common;
 			    using Marketplacenew.Models;
-			    using EncrypDecrypt;
-			    using Newtonsoft.Json;
+                            using EncrypDecrypt;
+                            using Microsoft.Extensions.Logging;
+                            using Newtonsoft.Json;
 				using Newtonsoft.Json.Linq;
                 using Npgsql;
 				using NpgsqlTypes;
 				using System.Text.RegularExpressions;
 
 			    //This code generated from staging Powered by Mahat, Source Machine : stg , Build Number : #2024-07-004 (Updated on 07/07/2024 22:07) on 05/06/2025 11:28:21
-			    public class tenantDAL
-			    {
-					public virtual string db_connectionstring{get;set;}
-					
-			 	    public tenantDAL(string connectionString)
-				    {
-						
-					    db_connectionstring=connectionString;
-				    }
+                            public class tenantDAL
+                            {
+                                        public virtual string db_connectionstring{get;set;}
+                                        private readonly ILogger<tenantDAL>? _logger;
+
+                                    public tenantDAL(string connectionString, ILogger<tenantDAL>? logger = null)
+                                    {
+
+                                            db_connectionstring=connectionString;
+                                            _logger = logger;
+                                    }
 				  
 			        
               public virtual string Create_tenant(tenantModel model)
@@ -87,10 +90,10 @@ dbCommand.Parameters.AddWithValue("pvar_createduser",NpgsqlDbType.Uuid,(object)m
 					        }
  
 
-					}catch(Exception ex){
-						ResponseMessage=ex.Message;
-						Console.WriteLine(ex);
-					} 
+                                        }catch(Exception ex){
+                                                ResponseMessage=ex.Message;
+                                                _logger?.LogError(ex, "Error in Create_tenant");
+                                        }
 					
 					return ResponseMessage;
 

@@ -1,48 +1,27 @@
 namespace Marketplacenew.Models{
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text;
+
 public class xssFilter : ValidationAttribute
 {
-public HashSet<string> BlackList = new HashSet<string>() 
-{
-{ "<script" },
-{ "script/>" },
-{ "<iframe" },
-{ "iframe/>" },
-{ "<form" },
-{ "form/>" },
-{ "object" },
-{ "<embed" },
-{ "embed/>" },
-{ "<link" },
-{ "link>" },
-{ "<head" },
-{ "head>" },
-{ "<meta" }
-};
-protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-{
-string strValue = value as string;
-StringBuilder sb =new StringBuilder();
-if (!string.IsNullOrEmpty(strValue))
-{
-foreach(var blockedVal in BlackList)
-{
-if(strValue.ToLower().Contains(blockedVal)){
-sb.AppendLine(blockedVal);
-}
-}
-}
-if(sb.ToString().Length ==0)
-return ValidationResult.Success;
-else
-{
-return new ValidationResult("Please Remove "+ sb.ToString() +" from "+validationContext.DisplayName.ToString());
-}
-}
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        string strValue = value as string;
+        if (string.IsNullOrEmpty(strValue))
+        {
+            return ValidationResult.Success;
+        }
+
+        string encodedValue = HtmlEncoder.Default.Encode(strValue);
+        if (string.Equals(encodedValue, strValue, StringComparison.Ordinal))
+        {
+            return ValidationResult.Success;
+        }
+
+        return new ValidationResult($"Input for {validationContext.DisplayName} contains potentially unsafe characters.");
+    }
 }
 }
 
