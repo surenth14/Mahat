@@ -1,0 +1,920 @@
+
+			<!-- This code generated from staging Powered by Mahat, Source Machine : stg , Build Number : #2024-07-004 (Updated on 07/07/2024 22:07) on 05/06/2025 11:28:22 -->
+			@using Microsoft.AspNetCore.Http
+			@inject IHttpContextAccessor HttpContextAccessor
+            @using Admin;
+			@model Marketplacenew.Models.tenantModel
+			@{
+			ViewData["Title"] = @Resource.updateenabler;
+
+			Layout = "~/Views/Shared/_Layout.cshtml";
+			
+			}
+
+			@using(Html.BeginForm("Update_tenant", "tenant", FormMethod.Post, new { enctype="multipart/form-data", @id = "formId"}))
+			{
+
+			<div class="card card-block contCard"><!--Form_Main_Card-->
+				<div class="mobileHeader"><!--form_card_header-->
+					<div class="row">
+						<div class="col-sm-12 col-xs-12">
+							<h4 class="formHdr">@Resource.updateenabler</h4>
+						</div>
+					</div>
+				</div><!--form_card_header-->
+				<!--form_error_display-->
+				@if(ViewData["message"] != null)
+				{
+				<div class="row">
+				<div class="col-sm-12 col-xs-12">
+				<div class="alert alert-danger alert-dismissible ">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">x</span>
+				</button>
+				Info :  @ViewData["message"]
+				</div>
+				</div>
+				</div>
+				}
+				
+				
+				 
+				
+				<!--form_error_display-->
+				<div class=""><!--form_inner_card-->
+					<div class="card-block"><!--form_inner_card_block-->
+					    @Html.HiddenFor(m => m.tenantid)
+                            
+						 
+
+						
+						<div class="row"><!--field_container_row-->
+							<!--fieldsStartsHere-->
+						       		
+								<div class="col-sm-4 col-xs-12 p-2 businessname_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="businessname">@Resource.tenant_businessname <b class="iconRed">*</b></label>
+                                @Html.TextBoxFor(m => m.businessname, new {@type="text",@maxlength="50", @class = "form-control form-control-lg mahat_transliterate required" })
+
+							     @Html.ValidationMessageFor(model => model.businessname)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 businesstype_craftmyapp_container">
+								<div>
+									<div class="form-group form-group--float-above my-3" > 
+										<label for="businesstype">@Resource.tenant_businesstype <b class="iconRed">*</b></label>
+										<select name="businesstype" id="businesstype" class="form-control  required"></select>
+
+									</div>
+									@Html.ValidationMessageFor(model => model.businesstype)
+									<div id="businesstype-error" class="help-block" style="display: none" role="alert"></div>
+								</div>
+							</div>
+<div class="col-sm-4 col-xs-12 p-2 natureofbusiness_craftmyapp_container">
+								<div>
+									<div class="form-group form-group--float-above my-3" > 
+										<label for="natureofbusiness">@Resource.tenant_natureofbusiness <b class="iconRed">*</b></label>
+										<select name="natureofbusiness" id="natureofbusiness" class="form-control  required"></select>
+
+									</div>
+									@Html.ValidationMessageFor(model => model.natureofbusiness)
+									<div id="natureofbusiness-error" class="help-block" style="display: none" role="alert"></div>
+								</div>
+							</div>
+<div class="col-sm-4 col-xs-12 p-2 businessemail_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="businessemail">@Resource.tenant_businessemail <b class="iconRed">*</b></label>
+                                @Html.TextBoxFor(m => m.businessemail, new {@type="email",@maxlength="128", @class = "form-control form-control-lg required" })
+
+							     @Html.ValidationMessageFor(model => model.businessemail)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 businessphone_craftmyapp_container craftmyapp_phone_container">
+						<div>
+							<div class="form-group" > 
+								<label for="businessphone">@Resource.tenant_businessphone <b class="iconRed">*</b></label>
+                                <input type="tel" name="businessphone_ip" id="businessphone_ip" class="form-control  required">
+@Html.HiddenFor(m => m.businessphone, new {@class = "invalidphone" })
+
+							     @Html.ValidationMessageFor(model => model.businessphone)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 businesswebsite_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="businesswebsite">@Resource.tenant_businesswebsite</label>
+                                @Html.TextBoxFor(m => m.businesswebsite, new {@type="url",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.businesswebsite)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 organizationlogo_craftmyapp_container list_card_section list_card_tablet">
+                                            <div>
+                                                <label for="organizationlogo">@Resource.tenant_organizationlogo</label>
+                                                <div class="form-group form-group--float-above my-3">
+                                                    <div class="input-file">
+                                                        <input type="hidden"  id="organizationlogo_existing" name="organizationlogo_existing">
+                                                        <input type="file" multiple accept="image/*"  id="organizationlogo" name="organizationlogo" class="attachments">
+                                                        <label for="organizationlogo">Browse</label>
+                                                        <span class="organizationlogofilebtn filebtn"></span>
+                                                        <div id="attachmentDisp" href="" >
+                                                            <span id = "organizationlogoshowFiles" class="btn-sm btn-default showFiles" data-toggle="modal" data-target="#organizationlogoModalotherdocuments"></span>
+                                                        </div>
+                                                    </div>
+                                                    <!--uploaded files-->
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content uploaded_files" id="organizationlogoModalotherdocuments">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title"><img src = "~/images/upload-file.png" alt="file"/><span>Uploaded Files</span></h4>
+                                                            <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div id = "organizationlogoAttachedFiles">
+                                                                <table id = "organizationlogofilesTab" class="table table-striped"></table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type = "button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </div>
+<div class="col-sm-4 col-xs-12 p-2 numberofemployees_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="numberofemployees">@Resource.tenant_numberofemployees</label>
+                                @Html.TextBoxFor(m => m.numberofemployees, new {@type="text",@min="0",@max="99999999", @class = "form-control form-control-lg " })
+
+							     @Html.ValidationMessageFor(model => model.numberofemployees)
+							</div>
+						</div>
+					</div>
+ 
+				<div class="col-sm-12 col-xs-12 mt-3 Address_craftmyapp_container"><!--form_group_div_block-->
+					<div class="card card-blue card-section cma_section_band list_card_section list_card_tablet">
+							<div class="card-head">
+								<header>@Resource.address</header>
+							</div>
+							<div class="card-body card-container-Padding-NoShadow">
+								<div class="row">
+										<div class="col-sm-4 col-xs-12 p-2 addressline1_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="addressline1">@Resource.tenant_addressline1</label>
+                                @Html.TextBoxFor(m => m.addressline1, new {@type="text",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.addressline1)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 addressline2_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="addressline2">@Resource.tenant_addressline2</label>
+                                @Html.TextBoxFor(m => m.addressline2, new {@type="text",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.addressline2)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 city_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="city">@Resource.tenant_city</label>
+                                @Html.TextBoxFor(m => m.city, new {@type="text",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.city)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 statename_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="statename">@Resource.tenant_statename</label>
+                                @Html.TextBoxFor(m => m.statename, new {@type="text",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.statename)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 zip_craftmyapp_container">
+						<div>
+							<div class="form-group" > 
+								<label for="zip">@Resource.tenant_zip</label>
+                                @Html.TextBoxFor(m => m.zip, new {@type="text",@maxlength="256", @class = "form-control form-control-lg mahat_transliterate " })
+
+							     @Html.ValidationMessageFor(model => model.zip)
+							</div>
+						</div>
+					</div>
+<div class="col-sm-4 col-xs-12 p-2 country_craftmyapp_container">
+								<div>
+									<div class="form-group form-group--float-above my-3" > 
+										<label for="country">@Resource.tenant_country</label>
+										<select name="country" id="country" class="form-control  "></select>
+
+									</div>
+									@Html.ValidationMessageFor(model => model.country)
+									<div id="country-error" class="help-block" style="display: none" role="alert"></div>
+								</div>
+							</div>
+
+
+								</div>
+							</div>
+					</div>
+				</div><!--form_group_div_block-->
+			 
+<div class="col-sm-4 col-xs-12 p-2 parentid_craftmyapp_container">
+								<div>
+									<div class="form-group form-group--float-above my-3" > 
+										<label for="parentid">@Resource.tenant_parentid</label>
+										<select name="parentid" id="parentid" class="form-control  "></select>
+
+									</div>
+									@Html.ValidationMessageFor(model => model.parentid)
+									<div id="parentid-error" class="help-block" style="display: none" role="alert"></div>
+								</div>
+							</div>
+
+
+							<!--fieldsEndsHere-->	
+						</div><!--field_container_row-->
+
+
+						<div class="card-block"><!--form_button_card_block-->
+							<button type="button" onclick="window.history.back()"  class="btn btn-secondary cma_cancel_button waves-effect">@Resource.back</button>
+							<button type="button" id="btnSubmit" class="btn cma_primary_button  cma_save_button waves-effect pull-right">@Resource.updateenabler</button>
+						</div><!--form_button_card_block-->
+
+
+					</div><!--form_inner_card_block-->
+				</div><!--form_inner_card-->
+			</div><!--Form_Main_Card-->
+
+			}<!--EndFORM-->
+
+
+			
+			 <!--from_cma_script-->
+			 <script type="text/javascript">
+				$(document).ready(function () {
+
+
+				var Actions=getAutho("tenant","edit")
+				if(Actions == undefined){
+				window.location = "@Url.Action("RoleAuthorizationFailed", "users")"
+				}
+
+
+				});
+				</script>
+			
+			<script>
+var strbusinesstype;
+</script>
+@if (Model != null)
+{
+if(Model.businesstype != null && Model.businesstype.ToString() != "")
+{
+<script>
+strbusinesstype="@Model.businesstype"
+</script>
+}
+}
+<script>
+var strnatureofbusiness;
+</script>
+@if (Model != null)
+{
+if(Model.natureofbusiness != null && Model.natureofbusiness.ToString() != "")
+{
+<script>
+strnatureofbusiness="@Model.natureofbusiness"
+</script>
+}
+}
+<script>
+$(document).ready(function () {
+var businessphone_input = document.querySelector("#businessphone_ip");
+        var itibusinessphone_input = window.intlTelInput(businessphone_input, {
+            nationalMode: true,
+            initialCountry: "in",
+            preferredCountries: ['us','in','sg']
+        });
+        itibusinessphone_input.setNumber($('#businessphone').val());
+        var handleChange_businessphone_input = function () {
+             var text = (itibusinessphone_input.isValidNumber()) ? itibusinessphone_input.getNumber() : "invalid";
+             $('#businessphone').val(text);
+        };
+
+        // listen to "keyup", but also "change" to update when the user selects a country
+        businessphone_input.addEventListener('change', handleChange_businessphone_input);
+        businessphone_input.addEventListener('keyup', handleChange_businessphone_input);
+
+        businessphone_input.addEventListener("countrychange", function () {
+            $('#businessphone_ip').val("");
+            $('#businessphone').val("");
+        })
+})
+</script>
+<script>
+	var organizationlogouploaded_attachments=[];
+	 
+</script>
+    @if (Model != null)
+    {
+        if(Model.organizationlogo != null && Model.organizationlogo.ToString() != "")
+        {
+        <script>
+             organizationlogouploaded_attachments= "@Model.organizationlogo".split('|').filter(Boolean);
+			$("#organizationlogo_existing").val("@Model.organizationlogo")
+        </script>
+        }
+    }
+ 
+<script>
+    
+   
+    var fileInputorganizationlogo = document.getElementById('organizationlogo');
+    var filesTaborganizationlogo = $('#organizationlogofilesTab');
+    var uploadernameorganizationlogo = document.querySelector(".organizationlogofilebtn");
+    var organizationlogoselectedFiles = [];
+    var organizationlogoexistingFiles = organizationlogouploaded_attachments;
+    renderExistingFileListOforganizationlogo();
+    updateFileCountoforganizationlogo();
+	
+
+	fileInputorganizationlogo.addEventListener('change', function (e) {
+		var files = e.target.files;
+
+		// Append the newly selected files to the existing organizationlogoselectedFiles array
+		organizationlogoselectedFiles.push(...files);
+
+
+		// Render the file list
+		renderFileListoforganizationlogo();
+
+		 
+
+		// Update the file count
+		updateFileCountoforganizationlogo();
+	});
+	function renderExistingFileListOforganizationlogo() {
+	 	// Remove all <tr> elements with the class name existingFile
+		filesTaborganizationlogo.find('tr.existingFile').remove();
+
+
+		// Render the updated file list
+		for (var i = 0; i < organizationlogoexistingFiles.length; i++) {
+			var file = organizationlogoexistingFiles[i];
+
+			var fileName = file;
+			var icon_Class = getIconClass(fileName);
+              var filedisplayname = fileName.substring(fileName.lastIndexOf('/') + 1);
+			                                                                     
+			var row = $('<tr>').attr('id', 'fileorganizationlogo' + i).attr('class', 'existingFile');
+			row.append($('<td>').addClass('ico_lst').html('<img src="' + vBaseurl + '' + icon_Class + '" alt="icon"/>'));
+            row.append($('<td>').addClass('cont_lst').html('<a href="' + fileName + '" target="_blank" id="' + fileName + '" class="filedisplay" title="' + fileName + '"><span>' + filedisplayname + '</span></a>'));
+			row.append($('<td>').addClass('delete_lst').html('<span class="btn btn-sm deleteAttach delexistingorganizationlogo' + i + '"><img src="' + vBaseurl + '/images/delete.png" alt="icon"></span>'));
+
+			filesTaborganizationlogo.append(row);
+
+			// Bind the click event for the delete button using a function
+			bindDeleteExistingEventorganizationlogo(i);
+		}
+	}
+
+	function renderFileListoforganizationlogo() {
+		// Remove all <tr> elements with the class name newFile
+		filesTaborganizationlogo.find('tr.newFile').remove();
+
+		// Render the updated file list
+		for (var i = 0; i < organizationlogoselectedFiles.length; i++) {
+			var file = organizationlogoselectedFiles[i];
+
+			var fileName = file.name;
+			var icon_Class = getIconClass(fileName);
+
+			var row = $('<tr>').attr('id', 'fileorganizationlogo' + i).attr('class', 'newFile');
+			row.append($('<td>').addClass('ico_lst').html('<img src="' + vBaseurl + '' + icon_Class + '" alt="icon"/>'));
+			row.append($('<td>').addClass('cont_lst').html('<a href="' + URL.createObjectURL(file) + '" target="_blank" id="' + fileName + '" class="filedisplay" title="' + fileName + '"><span>' + fileName + '</span></a>'));
+			row.append($('<td>').addClass('delete_lst').html('<span class="btn btn-sm deleteAttach delorganizationlogo' + i + '"><img src="' + vBaseurl + '/images/delete.png" alt="icon"></span>'));
+
+			filesTaborganizationlogo.append(row);
+
+			// Bind the click event for the delete button using a function
+			bindDeleteEventorganizationlogo(i);
+		}
+	}
+
+	function bindDeleteEventorganizationlogo(index) {
+		$(".delorganizationlogo" + index).click(function () {
+			// Remove the file from the selected files array
+			organizationlogoselectedFiles.splice(index, 1);
+
+			// Re-render the file list
+			renderFileListoforganizationlogo();
+
+			// Update the file count
+			updateFileCountoforganizationlogo();
+		});
+	}
+	function bindDeleteExistingEventorganizationlogo(index) {
+		$(".delexistingorganizationlogo" + index).click(function () {
+			// Remove the file from the selected files array
+			organizationlogoexistingFiles.splice(index, 1);
+			
+			$("#organizationlogo_existing").val(organizationlogoexistingFiles.join('|'))
+			
+			// Re-render the file list
+			renderExistingFileListOforganizationlogo();
+
+			// Update the file count
+			updateFileCountoforganizationlogo();
+		});
+	}
+	function updateFileCountoforganizationlogo() {
+		// Display the file count
+		uploadernameorganizationlogo.innerHTML = organizationlogoselectedFiles.length + organizationlogoexistingFiles.length + ' files selected';
+		 
+	}
+
+
+
+</script>
+<link href="~/components/jquery-colorbox/colorbox.css" rel="stylesheet" />
+								<script src="~/components/jquery-colorbox/jquery.colorbox.js"></script> 
+<script>
+$(document).ready(function () {
+$("#numberofemployees").autoNumeric('init',{aSep: '',vMin: '0',vMax: '99999999'})
+})
+</script>
+<script>
+var strcountry;
+</script>
+@if (Model != null)
+{
+if(Model.country != null && Model.country.ToString() != "")
+{
+<script>
+strcountry="@Model.country"
+</script>
+}
+}
+
+			<script>
+$(document).ready(function () {
+
+$.ajax({
+url: '@Url.Action("get_lookups_by_entity","lookups")',
+dataType: 'json',
+data:{id: 'tenant' },
+success: function(data) {
+
+
+
+		$.each(data, function(index, optionDataInner) {
+
+				
+											if(optionDataInner.fieldname=="businesstype"){
+												var ddltarget_businesstype = "#businesstype"
+												$(ddltarget_businesstype).empty();
+												$(ddltarget_businesstype).append("<option value=''>Choose</option>")
+												var options_businesstype = optionDataInner.fielddesc.split(',');
+                                                options_businesstype.sort(function (a, b) {
+                                                                        return a.localeCompare(b);
+                                                    });
+												options_businesstype.forEach(function(option_businesstype){
+													if(strbusinesstype== option_businesstype)
+													$(ddltarget_businesstype).append('<option selected value="' + option_businesstype + '">' + option_businesstype+ '</option>')
+													else
+													$(ddltarget_businesstype).append('<option  value="' + option_businesstype + '">' + option_businesstype+ '</option>')
+												
+												})  
+ 
+											}
+
+											if(optionDataInner.fieldname=="natureofbusiness"){
+												var ddltarget_natureofbusiness = "#natureofbusiness"
+												$(ddltarget_natureofbusiness).empty();
+												$(ddltarget_natureofbusiness).append("<option value=''>Choose</option>")
+												var options_natureofbusiness = optionDataInner.fielddesc.split(',');
+                                                options_natureofbusiness.sort(function (a, b) {
+                                                                        return a.localeCompare(b);
+                                                    });
+												options_natureofbusiness.forEach(function(option_natureofbusiness){
+													if(strnatureofbusiness== option_natureofbusiness)
+													$(ddltarget_natureofbusiness).append('<option selected value="' + option_natureofbusiness + '">' + option_natureofbusiness+ '</option>')
+													else
+													$(ddltarget_natureofbusiness).append('<option  value="' + option_natureofbusiness + '">' + option_natureofbusiness+ '</option>')
+												
+												})  
+ 
+											}
+
+											if(optionDataInner.fieldname=="country"){
+												var ddltarget_country = "#country"
+												$(ddltarget_country).empty();
+												$(ddltarget_country).append("<option value=''>Choose</option>")
+												var options_country = optionDataInner.fielddesc.split(',');
+                                                options_country.sort(function (a, b) {
+                                                                        return a.localeCompare(b);
+                                                    });
+												options_country.forEach(function(option_country){
+													if(strcountry== option_country)
+													$(ddltarget_country).append('<option selected value="' + option_country + '">' + option_country+ '</option>')
+													else
+													$(ddltarget_country).append('<option  value="' + option_country + '">' + option_country+ '</option>')
+												
+												})  
+ 
+											}
+
+
+
+		});
+
+
+},
+error: function(jqXHR, textStatus, errorThrown) {
+if (JSON.stringify(jqXHR.responseText) == "\"API Authorization failed\"")
+{
+swal({
+title: 'Failed!',
+text: jqXHR.responseText,
+type: 'error',
+buttonsStyling: false,
+confirmButtonClass: 'btn btn-primary',
+allowOutsideClick: false
+}).then(function() {
+window.location = "@Url.Action("AuthorizationFailed", "users")"
+}) 
+}
+else
+{
+swal({
+title: 'Contact Administrator !',
+text: jqXHR.responseText,
+type: 'error',
+buttonsStyling: false,
+confirmButtonClass: 'btn btn-primary'
+}) 
+}
+}
+})
+})
+</script>
+			
+			
+			
+			<script>
+            
+			
+			
+			</script>
+			
+  
+ 
+                            <script>
+                            var posturl='';
+                            </script>
+
+                             @if (Model == null)
+                             {
+	                             <script>
+                                posturl = '@Url.Action("Create_tenant")';
+	                            </script>
+                            }else{
+	   
+	                                <script>
+                                                   posturl = '@Url.Action("Update_tenant")';
+			 
+						                                  </script>    			              
+                              
+	 
+							                            ViewData["Title"] = @Resource.updateenabler;
+						                                 <script>
+                   
+					                                 $("#btnSubmit").html("@Resource.updateenabler")
+						                                  </script>    
+ 
+ 
+                            }
+
+<script>
+$(document).ready(function () {
+	
+	
+           
+                $.validator.addMethod("invalidphone", function (value, element) {
+                if (value == 'invalid') {
+                return false;
+                }
+                return true;
+                }, "Please enter valid value");
+
+                                        $('#formId').validate({
+                                        ignore: ":hidden:not(.invalidphone)",
+                                        highlight: function(element) {
+                                        $(element).closest('.form-group').addClass('has-error');
+                                        $(element).closest('.form-group').removeClass('has-success');
+                                        $(element).addClass('form-control-error');
+                                        $(element).removeClass('form-control-success');
+                                        },
+                                        unhighlight: function(element) {
+                                        $(element).closest('.form-group').removeClass('has-error');
+                                        $(element).closest('.form-group').addClass('has-success');
+                                        $(element).addClass('form-control-success');
+                                        $(element).removeClass('form-control-error');
+                                        },
+                                        errorElement: 'span',
+                                        errorClass: 'help-block',
+                                        errorPlacement: function (error, element) {
+                                                    if (element.hasClass("invalidphone")) {
+                                                        error.addClass("invalidphoneerror");
+                                                        error.insertAfter(element);
+                                                    } else {
+                                                        error.insertAfter(element);
+                                                    }
+                                                }
+                                        });
+ 	 
+var validator = $("#formId").validate({ /* settings */ });
+ 
+$("#btnSubmit").click(function(){
+ 
+ 
+ 
+
+ 
+ 
+
+if ($("#formId").valid()){
+ $(".page-loader").show()
+ 
+ var form = $('#formId')[0];
+ var formdata = new FormData(form);
+
+ 
+
+ 
+ formdata.delete('organizationlogo');
+                     for (var i = 0; i < organizationlogoselectedFiles.length; i++) {
+		                     formdata.append('organizationlogo', organizationlogoselectedFiles[i]);
+                        }
+
+ 
+ 
+
+ 
+$.ajax({
+url: posturl,
+type:'POST',
+enctype: 'multipart/form-data',
+processData: false,   
+contentType: false,
+cache: false,
+data: formdata,
+success: function(data) {
+  
+  $(".page-loader").hide();
+ if(data=="Success"){
+ $(".page-loader").hide();
+
+ 	var Actions_=getAutho("tenant","list")
+	if(Actions_ !=  undefined)
+	{
+		
+                                                                        
+                                                                                var list_URL = "@Url.Action("entry.viewname", "tenant")"
+		                                                                list_URL = list_URL.replace("entry.viewname", Actions_.actionmethodname);
+		                                                                window.location=list_URL+'?businesstype='+$("#businesstype").val();
+
+                                                                          
+                                                                        
+	 
+	}
+   
+ }
+    else {
+                                $(".page-loader").hide();
+                                swal({
+                                    title: "Error !!",
+                                    text: data,
+
+                                    type: "error",
+                                    showCancelButton: false,
+                                    confirmButtonText: "OK",
+                                })
+
+
+                            }
+
+ 
+},
+	error: function(jqXHR, textStatus, errorThrown) {
+	if (JSON.stringify(jqXHR.responseText) == "\"API Authorization failed\"")
+	{
+	swal({
+	title: 'Failed!',
+	text: jqXHR.responseText,
+	type: 'error',
+	buttonsStyling: false,
+	confirmButtonClass: 'btn btn-primary',
+	allowOutsideClick: false
+	}).then(function() {
+	window.location = "@Url.Action("AuthorizationFailed", "users")"
+	}) 
+	}
+	else
+	{
+	swal({
+	title: 'Contact Administrator !',
+	text: jqXHR.responseText,
+	type: 'error',
+	buttonsStyling: false,
+	confirmButtonClass: 'btn btn-primary'
+	}) 
+	}
+	}
+})
+
+
+
+
+}else{
+validator.focusInvalid();
+swal({
+title: 'Validation Failed !',
+text: "Please check your entry",
+type: 'error',
+buttonsStyling: false,
+confirmButtonClass: 'btn btn-primary'
+ })
+}
+})
+})
+
+
+</script>
+
+			
+			
+            
+            
+
+			 
+             
+                
+
+
+			 <!--to_cma_script-->
+			
+
+    <script>
+        var strparentid = ""
+    </script>
+@if (Model != null)
+{
+    <script>
+       strparentid = "@Model.parentid"
+    </script>
+} 
+<script>
+$(document).ready(function(){
+
+$(".parentid_craftmyapp_container").hide()
+fill_parentid("@Model.businesstype")
+if ("@Model.natureofbusiness".indexOf("@Model.businesstype") !== -1 ){
+			if ("@Model.natureofbusiness".indexOf("Lead") !== -1) {
+				$(".parentid_craftmyapp_container").hide()
+
+
+            } else {
+				$(".parentid_craftmyapp_container").show()
+
+
+            }
+        }else
+        {
+			$("#natureofbusiness").val("")
+		}
+	 $("#natureofbusiness").change(function(){
+		 $("#parentid").val("")
+		  $(".parentid_craftmyapp_container").hide()
+
+          if ($("#natureofbusiness").val().indexOf($("#businesstype").val()) !== -1 ){
+				if ($("#natureofbusiness").val().indexOf("Lead") !== -1) {
+				   $(".parentid_craftmyapp_container").hide()
+
+
+                } else {
+				   $(".parentid_craftmyapp_container").show()
+
+
+                }
+            }else
+            {
+			  $("#natureofbusiness").val("")
+		  }
+		  
+			 
+})
+
+	$("#parentid").append("<option value=''>Choose</option>");
+	  $("#businesstype").change(function(){
+			$("#natureofbusiness").trigger('change')
+			fill_parentid($("#businesstype").val())
+	  })
+})
+function fill_parentid(pvar_businesstype) {
+
+var sendFilterData = {
+	businesstype:pvar_businesstype
+}
+
+$.ajax({
+url: '@Url.Action("get_parentid")',
+dataType: 'json',
+data: sendFilterData,
+success: function(data) {
+
+        if (data.length > 0) {
+            data = data.filter(item => item.businessname !== null);
+            data.sort((a, b) =>
+	            String(a.businessname).toLowerCase().localeCompare(String(b.businessname).toLowerCase()) 
+            );        
+        }
+       var ddltarget_parentid="#parentid"
+	    $(ddltarget_parentid).empty();
+		
+		$(ddltarget_parentid).append("<option value=''>Choose</option>");
+
+
+		
+
+		$.each(data, function(index, optionDataInner) {
+
+				    if(strparentid== optionDataInner.tenantid)
+					$(ddltarget_parentid).append('<option selected value=' + optionDataInner.tenantid + '>' + optionDataInner.businessname+ '</option>')
+					else
+					$(ddltarget_parentid).append('<option  value=' + optionDataInner.tenantid+ '>' + optionDataInner.businessname+ '</option>')
+								
+
+
+		});
+
+		
+
+	
+},
+error: function(jqXHR, textStatus, errorThrown) {
+if (JSON.stringify(jqXHR.responseText) == "\"API Authorization failed\"")
+{
+                swal({
+                title: 'Failed!',
+text: jqXHR.responseText,
+type: 'error',
+buttonsStyling: false,
+confirmButtonClass: 'btn btn-primary',
+allowOutsideClick: false
+                }).then(function() {
+                    window.location = "@Url.Action("AuthorizationFailed", "users")"
+                }) 
+}
+else
+            {
+                swal({
+                title: 'Contact Administrator !',
+text: jqXHR.responseText,
+type: 'error',
+buttonsStyling: false,
+confirmButtonClass: 'btn btn-primary'
+                }) 
+}
+        }
+    })
+
+}
+</script> 
+<script>
+					$(document).ready(function () {
+						 
+						$("#tenantid").change(function(){
+								 
+						})
+					
+
+					});
+					</script>
+
+
+
