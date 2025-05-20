@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Marketplacenew.DAL;
 
 namespace MarketplacenewWebApi
 {
@@ -48,7 +49,9 @@ services.AddAuthentication(options =>
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
 			};
 		});
-			services.Configure<ConnectionSettings>(Configuration.GetSection("ConnectionSettings"));
+                        services.Configure<ConnectionSettings>(Configuration.GetSection("ConnectionSettings"));
+                        services.AddScoped<ITenantDAL, tenantDAL>();
+                        services.AddScoped<IUsersDAL, usersDAL>();
 services.Configure<FormOptions>(x => {
             x.ValueLengthLimit = int.MaxValue;
             x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart

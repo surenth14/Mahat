@@ -4,23 +4,26 @@ namespace Marketplacenew.DAL{
 			    using System.Data;
 			    using System.Data.Common;
 			    using Marketplacenew.Models;
-			    using EncrypDecrypt;
-			    using Newtonsoft.Json;
+                            using EncrypDecrypt;
+                            using Microsoft.Extensions.Logging;
+                            using Newtonsoft.Json;
 				using Newtonsoft.Json.Linq;
                 using Npgsql;
 				using NpgsqlTypes;
 				using System.Text.RegularExpressions;
 
 			    //This code generated from staging Powered by Mahat, Source Machine : stg , Build Number : #2024-07-004 (Updated on 07/07/2024 22:07) on 05/06/2025 11:28:19
-			    public class usersDAL
-			    {
-					public virtual string db_connectionstring{get;set;}
-					
-			 	    public usersDAL(string connectionString)
-				    {
-						
-					    db_connectionstring=connectionString;
-				    }
+                            public class usersDAL : IUsersDAL
+                            {
+                                        public virtual string db_connectionstring{get;set;}
+                                        private readonly ILogger<usersDAL>? _logger;
+
+                                    public usersDAL(string connectionString, ILogger<usersDAL>? logger = null)
+                                    {
+
+                                            db_connectionstring=connectionString;
+                                            _logger = logger;
+                                    }
 				  
 			        public virtual System.Data.DataTable getById_alloweddevices(string usersid)
 			 {
@@ -122,10 +125,10 @@ dbCommand.Parameters.AddWithValue("pvar_alloweddevices",NpgsqlDbType.Json,DBNull
 					        }
  
 
-					}catch(Exception ex){
-						ResponseMessage=ex.Message;
-						Console.WriteLine(ex);
-					} 
+                                        }catch(Exception ex){
+                                                ResponseMessage=ex.Message;
+                                                _logger?.LogError(ex, "Error in Create_users");
+                                        }
 					
 					return ResponseMessage;
 
@@ -669,10 +672,10 @@ public virtual string ChangePassword(usersChangePasswordModel  model)
 					        }
  
 
-					}catch(Exception ex){
-						ResponseMessage=ex.Message;
-Console.WriteLine(ex);
-					} 
+                                        }catch(Exception ex){
+                                                ResponseMessage=ex.Message;
+                                                _logger?.LogError(ex, "Error in Update_users");
+                                        }
 					
 					return ResponseMessage;
 

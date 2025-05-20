@@ -14,8 +14,9 @@ namespace MarketplacenewWebApi.Controllers
 				using System.Security.Claims;
 				using System.Text;
 				using Microsoft.IdentityModel.Tokens;
-				using Marketplacenew.Models;
-				using Marketplacenew.DAL;
+                                using Marketplacenew.Models;
+                                using Marketplacenew.Models.Validators;
+                                using Marketplacenew.DAL;
 				using FluentValidation.Results;
 
 				using Microsoft.AspNetCore.Hosting;
@@ -27,15 +28,15 @@ namespace MarketplacenewWebApi.Controllers
 				//This code generated from staging Powered by Mahat, Source Machine : stg , Build Number : #2024-07-004 (Updated on 07/07/2024 22:07) on 05/06/2025 11:28:21
 				public class tenantController : BaseController
 				{
-				    public tenantController(IHttpContextAccessor httpContextAccessor,IOptions<ConnectionSettings> connectionSettings, ILoggerFactory loggerFactory, IConfiguration configuration,IWebHostEnvironment hostingEnvironment)
-				    {
-					     _configuration = configuration;
-					     _logger = loggerFactory.CreateLogger<tenantController>();
-					     _connectionSettings = connectionSettings;
-					     objtenantDAL = new tenantDAL(_connectionSettings.Value.ConnectionString);
+                                    public tenantController(IHttpContextAccessor httpContextAccessor,IOptions<ConnectionSettings> connectionSettings, ILoggerFactory loggerFactory, IConfiguration configuration,IWebHostEnvironment hostingEnvironment, ITenantDAL tenantDal)
+                                    {
+                                             _configuration = configuration;
+                                             _logger = loggerFactory.CreateLogger<tenantController>();
+                                             _connectionSettings = connectionSettings;
+                                             objtenantDAL = tenantDal;
                          obj_External_System_DAL =new External_System_DAL(_connectionSettings.Value.ConnectionString);
                          objExternalSystemUtitlity = new ExternalSystemUtility(_connectionSettings, _configuration);
-					     hostingEnv = hostingEnvironment;
+                                             hostingEnv = hostingEnvironment;
 
                             var authHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
 
@@ -49,7 +50,7 @@ namespace MarketplacenewWebApi.Controllers
 
                             }
 				    }
-				private tenantDAL objtenantDAL;
+                                private ITenantDAL objtenantDAL;
                 private External_System_DAL obj_External_System_DAL;
 				private IOptions<ConnectionSettings> _connectionSettings;
 				private ILogger _logger;
