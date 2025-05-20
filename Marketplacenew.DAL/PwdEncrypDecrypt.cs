@@ -10,48 +10,65 @@ namespace EncrypDecrypt
 {
     public static class PwdEncrypDecrypt
     {
+        private const int SaltSize = 16;
+        private const int IvSize = 16;
+
         public static string Encrypt(string EncryptionKey, string password)
         {
-           // string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(password);
+            byte[] clearBytes = Encoding.UTF8.GetBytes(password);
+
+            byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
+            using (var pdb = new Rfc2898DeriveBytes(EncryptionKey, salt, 100000, HashAlgorithmName.SHA256))
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
                 encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
+                encryptor.GenerateIV();
+
+                using (var ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
+                        cs.FlushFinalBlock();
                     }
-                    password = Convert.ToBase64String(ms.ToArray());
+
+                    byte[] result = new byte[SaltSize + IvSize + ms.Length];
+                    Buffer.BlockCopy(salt, 0, result, 0, SaltSize);
+                    Buffer.BlockCopy(encryptor.IV, 0, result, SaltSize, IvSize);
+                    Buffer.BlockCopy(ms.ToArray(), 0, result, SaltSize + IvSize, (int)ms.Length);
+
+                    return Convert.ToBase64String(result);
                 }
             }
-            return password;
         }
 
         public static string Decrypt(string EncryptionKey, string cipherText)
         {
-            //string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] allBytes = Convert.FromBase64String(cipherText);
+            byte[] salt = new byte[SaltSize];
+            byte[] iv = new byte[IvSize];
+            Buffer.BlockCopy(allBytes, 0, salt, 0, SaltSize);
+            Buffer.BlockCopy(allBytes, SaltSize, iv, 0, IvSize);
+            byte[] cipherBytes = new byte[allBytes.Length - SaltSize - IvSize];
+            Buffer.BlockCopy(allBytes, SaltSize + IvSize, cipherBytes, 0, cipherBytes.Length);
+
+            using (var pdb = new Rfc2898DeriveBytes(EncryptionKey, salt, 100000, HashAlgorithmName.SHA256))
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
                 encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
+                encryptor.IV = iv;
+
+                using (var ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
+                        cs.FlushFinalBlock();
                     }
-                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
+
+                    return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
-            return cipherText;
         }
     }
 }
